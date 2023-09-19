@@ -11,6 +11,8 @@
 </head>
 <body>
     <h1>RPS</h1>
+	<button id="connectButton">Connect Wallet</button>
+    <button id="connectedButton" style="display: none;">Connected</button>
    
 
 	<label > Choose your Move</label>
@@ -232,6 +234,53 @@
 ]
      
      
+const connectButton = document.getElementById('connectButton');
+  const connectedButton = document.getElementById('connectedButton');
+
+  // Function to check if Metamask is connected
+  function checkMetamaskConnection() {
+    if (typeof window.ethereum !== 'undefined') {
+      ethereum.request({ method: 'eth_accounts' })
+      .then(accounts => {
+        if (accounts.length > 0) {
+          connectedButton.style.display = 'block';
+          connectButton.style.display = 'none';
+        } else {
+          connectedButton.style.display = 'none';
+          connectButton.style.display = 'block';
+        }
+      })
+      .catch(error => console.error(error));
+    }
+  }
+
+  // Event listener for the connect button
+  connectButton.addEventListener('click', function() {
+    ethereum.request({ method: 'eth_requestAccounts' })
+    .then(accounts => {
+      if (accounts.length > 0) {
+        connectedButton.style.display = 'block';
+        connectButton.style.display = 'none';
+      }
+    })
+    .catch(error => console.error(error));
+  });
+
+  // Initial check when the page loads
+  checkMetamaskConnection();
+
+  // Event listener for when Metamask is connected/disconnected
+  ethereum.on('accountsChanged', function (accounts) {
+    if (accounts.length > 0) {
+      connectedButton.style.display = 'block';
+      connectButton.style.display = 'none';
+    } else {
+      connectedButton.style.display = 'none';
+      connectButton.style.display = 'block';
+    }
+  });
+
+  
 const web3 = new Web3(window.ethereum);
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
