@@ -15,15 +15,20 @@
    
 	<button id="connectButton">Connect Wallet</button>
     <button id="connectedButton" style="display: none;">Connected</button>
-	<p> Rock = 1, Paper = 2, Scissors = 3, Spock = 4, Lizard = 5</p>
-   
-   
 	<br>
-	
+	<br>
+	<h4> Player 1</h4>
+   
    <br>
-   <br>
-
-   <input id="c1"  placeholder="your move number (uint8)" value="" required>
+   <select  id="c1">
+	  
+	<option value="1">Rock</option>
+	<option value="2">Paper</option>
+	<option value="3">Scissors</option>
+	<option value="4">Spock</option>
+	<option value="5">Lizard</option>
+  </select>
+  
    <input id="player2" type="text" placeholder="j2 address" value="" required>
    <input id="stake" type="number" placeholder="add stake  (sepoliaEth)" value="" required>
    <button  onclick="RPS()">deploy</button>
@@ -32,9 +37,16 @@
   
    <br>
    <br>
- 
-
-   <input id="move" type="number" placeholder="move (uint8)" value="" required>
+   <h4>After deploying, will get URL to play player2</h4> 
+   <br>
+   <select  id="move">
+	  
+	<option value="1">Rock</option>
+	<option value="2">Paper</option>
+	<option value="3">Scissors</option>
+	<option value="4">Spock</option>
+	<option value="5">Lizard</option>
+  </select>
    <button  onclick="solve()">solve</button>
 
    <br>
@@ -389,7 +401,7 @@ console.log("0xc258Ac72a022f45a99827506610Bf430C1709b98");
 j1();
 j2();
 const para = document.createElement("h4");
-const node = document.createTextNode(`copy and give link to player2 to play  `);
+const node = document.createTextNode(`Before you solve, copy and give link to player2 to play  `);
 para.appendChild(node);
 const element = document.getElementById("div4");
 element.appendChild(para);
