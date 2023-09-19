@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner2 Contract Interaction</title>
+    <title>Owner Contract Interaction</title>
 </head>
 <body>
     <h1>Owner Contract Interaction</h1>
@@ -294,7 +294,9 @@ console.log('error');
 			 contract= new web3.eth.Contract(contractABI, contractAddress);
                 console.log(tx);
 				console.log(hello);
-				console.log(contract);	
+				console.log(contract);
+				console.log(`https://github.com/shan2001-s/solLearn/player2.html?id=${contractAddress}`)
+				
             } catch (error) {
                 console.error(error);
             }
