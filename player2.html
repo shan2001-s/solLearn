@@ -10,17 +10,30 @@
     <title>Owner Contract Interaction</title>
 </head>
 <body>
-    <h1>Owner Contract Interaction</h1>
+    <h1>RPS</h1>
    
 
-
+	<label > Choose your Move</label>
+	<select  id="move">
+	  <option value="0">Null</option>
+	  <option value="1">Rock</option>
+	  <option value="2">Paper</option>
+	  <option value="3">Scissors</option>
+	  <option value="4">Spock</option>
+	  <option value="5">Lizard</option>
+	</select>
+	<button  onclick="play()">play</button> <br>
+	<br>
   
 
    <button  onclick="j1()">j1</button>
    <button  onclick="j2()">j2</button>
-   <button  onclick="stake()">stake</button>
+  
 
-   <button  onclick="play()">play</button>
+   <div id="div1">
+
+   </div>
+ 
  
 
   
@@ -235,6 +248,7 @@ let contract = new web3.eth.Contract(contractABI, contractAddress);
         try {
                 
            const j1= await contract.methods.j1().call()
+		   alert(`j1 , ${j1}`);
 		   console.log(j1);
           
             } catch (error) {
@@ -246,6 +260,7 @@ let contract = new web3.eth.Contract(contractABI, contractAddress);
 			
         try {
            const j2= await contract.methods.j2().call()
+		   alert(`j2 , ${j2}`);
 		   console.log(j2);
             } catch (error) {
                 console.error(error);
@@ -256,8 +271,15 @@ let contract = new web3.eth.Contract(contractABI, contractAddress);
 
 async function stake() {
     try {
+		
         stakeValue = await contract.methods.stake().call();
-        console.log("Current Stake:", web3.utils.fromWei(stakeValue, 'ether'), "Ether");
+		let stakeAmount = web3.utils.fromWei(stakeValue, 'ether');
+		const para = document.createElement("p");
+const node = document.createTextNode(`Stake Amount: ${stakeAmount} Ether`);
+para.appendChild(node);
+const element = document.getElementById("div1");
+element.appendChild(para);
+        console.log(stakeAmount,"Ether");
     } catch (error) {
         console.error(error);
     }
@@ -268,13 +290,16 @@ async function stake() {
 stake();
 
             async function play() {
+				const move=document.getElementById('move').value;
+				console.log(move);
         try {
                 const accounts = await web3.eth.getAccounts();
 				console.log(accounts);
                 const playerAddress = accounts[0];
-				const aa=2;
+				const move=document.getElementById('move').value;
+				
                 
-           const c2= await contract.methods.play(aa).send({ from: playerAddress, value: stakeValue });
+           const c2= await contract.methods.play(move).send({ from: playerAddress, value: stakeValue });
 		   console.log(c2);
             } catch (error) {
                 console.error(error);

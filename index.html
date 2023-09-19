@@ -10,30 +10,51 @@
     <title>Owner Contract Interaction</title>
 </head>
 <body>
-    <h1>Owner Contract Interaction</h1>
+    <h1>RPS</h1>
    
-    <input id="c1" type="text" placeholder="choose number (uint8)" value="" required>
-    <input id="salt" type="text" placeholder="salt (uint8)" value="" required>
+
+	<p>Null =0 , Rock = 1, Paper = 2, Scissors = 3, Spock = 4, Lizard = 5</p>
+    <input id="c1"  placeholder="your move number (uint8)" value="" required>
+    <input id="salt" type="text" placeholder="salt (uint256)" value="" required>
     <button  onclick="hash()">hash</button>
    <br>
    <br>
 
-   <input id="c1Hash" type="text" placeholder="bytes32" value="" required>
-   <input id="player2" type="text" placeholder="address" value="" required>
+   <input id="c1Hash" type="text" placeholder=" c1_ Hash bytes32" value="" required>
+   <input id="player2" type="text" placeholder="j2 address" value="" required>
    <input id="stake" type="number" placeholder="add stake ETH" value="" required>
    <button  onclick="RPS()">deploy</button>
 <br>
 <br>
-   <button  onclick="j1()">j1</button>
-   <button  onclick="j2()">j2</button>
-   <button  onclick="stake()">stake</button>
+  
    <br>
    <br>
  
 
    <input id="move" type="number" placeholder="move (uint8)" value="" required>
-   <input id="saltSolve" type="number" placeholder="salt (uint8)" value="" required>
+   <input id="saltSolve" type="number" placeholder="salt (uint256)" value="" required>
    <button  onclick="solve()">solve</button>
+
+   <br>
+   <br>
+   
+<div id="div1">
+
+</div>
+<div id="div2">
+
+</div>
+<div id="div3">
+
+</div>
+
+<div id="div4">
+
+</div>
+<div id="div5">
+
+</div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.10.0/web3.min.js"></script>
     <script>
  const contractAddressHash = '0xdA97d6D4403F1F2AdACCf8e8B485E4b3B6490B8d';
@@ -74,6 +95,8 @@ try {
 const hasher= await contractHash.methods.hash(c1,salt).call();
 console.log(hasher);
 console.log("0xc258Ac72a022f45a99827506610Bf430C1709b98");
+
+
 } catch (error) {
 console.log('error');
 }
@@ -295,23 +318,24 @@ console.log('error');
                 console.log(tx);
 				console.log(hello);
 				console.log(contract);
-				console.log(`https://github.com/shan2001-s/solLearn/player2.html?id=${contractAddress}`)
-				
-            } catch (error) {
-                console.error(error);
-            }
-        }
+				console.log(`https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`)
 
-		async function play() {
-			const stake = document.getElementById('stake').value
-        try {
-                const accounts = await web3.eth.getAccounts();
-				console.log(accounts);
-                const playerAddress = accounts[0];
-				const aa=2;
-                
-           const c2= await contract.methods.play(aa).send({ from: playerAddress, value: web3.utils.toWei(stake, 'ether') });
-		   console.log(c2);
+
+j1();
+j2();
+const para = document.createElement("h4");
+const node = document.createTextNode(`copy and give link to player2 to play  `);
+para.appendChild(node);
+const element = document.getElementById("div4");
+element.appendChild(para);
+
+const para2 = document.createElement("p");
+const node2 = document.createTextNode(`  https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`);
+para2.appendChild(node2);
+const element2 = document.getElementById("div5");
+element2.appendChild(para2);
+
+				
             } catch (error) {
                 console.error(error);
             }
@@ -322,8 +346,11 @@ console.log('error');
         try {
                 
                 
-           const j1= await contract.methods.j1().call()
+           const j1= await contract.methods.j1().call();
+		 
+
 		   console.log(j1);
+
             } catch (error) {
                 console.error(error);
             }
@@ -333,7 +360,9 @@ console.log('error');
 			
         try {
            const j2= await contract.methods.j2().call()
-		   console.log(j2);
+		  
+		
+console.log(j2);
             } catch (error) {
                 console.error(error);
             }
@@ -343,8 +372,11 @@ console.log('error');
 
 			
 			try {
-			   const stake= await contract.methods.stake().call()
-			   console.log("Current Stake:", web3.utils.fromWei(stake, 'ether'), "Ether");
+			   const stake= await contract.methods.stake().call();
+			   const stakeValue=web3.utils.fromWei(stake, 'ether');
+			   
+			   console.log(stakeValue);
+		
 				} catch (error) {
 					console.error(error);
 				}
