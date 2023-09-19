@@ -17,6 +17,11 @@
     <input id="c1"  placeholder="your move number (uint8)" value="" required>
     <input id="salt" type="text" placeholder="salt (uint256)" value="" required>
     <button  onclick="hash()">hash</button>
+
+	<br>
+	<div id="div0">
+
+	</div>
    <br>
    <br>
 
@@ -95,7 +100,11 @@ try {
 const hasher= await contractHash.methods.hash(c1,salt).call();
 console.log(hasher);
 console.log("0xc258Ac72a022f45a99827506610Bf430C1709b98");
-
+const para = document.createElement("p");
+const node = document.createTextNode(`c1_Hash : ${hasher} `);
+para.appendChild(node);
+const element = document.getElementById("div0");
+element.appendChild(para);
 
 } catch (error) {
 console.log('error');
