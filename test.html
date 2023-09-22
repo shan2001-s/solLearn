@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>5 Minute Timer</title>
+</head>
+<body>
+    <h1>5 Minute Timer</h1>
+    <div id="timer">05:00</div>
+
+    <script>
+        let timeLeft = 300; // 5 minutes in seconds
+        let timerInterval;
+
+        function updateTimer() {
+            const timerElement = document.getElementById("timer");
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+            if (timeLeft === 0) {
+                clearInterval(timerInterval);
+                alert("Time's up!");
+            } else {
+                timeLeft--;
+            }
+        }
+
+        function checkLocalStorage() {
+            if (localStorage.getItem("myData")) {
+                clearInterval(timerInterval);
+                alert("Data added. Timer stopped.");
+            }
+        }
+
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Check local storage every second
+        setInterval(checkLocalStorage, 1000);
+    </script>
+</body>
+</html>

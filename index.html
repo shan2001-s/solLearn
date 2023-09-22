@@ -122,17 +122,22 @@
   localStorage.removeItem("salt");
 });
 		const aa = new Date().valueOf();
-
-const storedValue =  localStorage.setItem("salt", aa);
+		let a = BigInt(aa);
+let result = a ** BigInt(7);
+console.log(result);
+const storedValue =  localStorage.setItem("salt", result);
 const getstoredValue =  localStorage.getItem("salt");
 console.log(getstoredValue);
 
-// if (storedValue === null) {
-//   localStorage.setItem("salt", aa);
-//   console.log("Value added to localStorage");
-// } else {
-//   console.log("Value retrieved from localStorage:", storedValue);
-// }
+let bigIntNumber = BigInt(getstoredValue);
+let totalDigits = bigIntNumber.toString().length;
+
+console.log(totalDigits);
+
+let reversedString = bigIntNumber.toString().split('').reverse().join('');
+let last80Digits = reversedString.slice(0, 77);
+
+console.log(last80Digits);
 
  const contractAddressHash = '0xdA97d6D4403F1F2AdACCf8e8B485E4b3B6490B8d';
 
@@ -164,7 +169,7 @@ const contractABIHash = [
 const web3 = new Web3(window.ethereum);
 const contractHash = new web3.eth.Contract(contractABIHash, contractAddressHash);
 let c1Move;
-let salt = getstoredValue;
+let salt = last80Digits;
 console.log(salt);
 let hasherValue;
 
@@ -396,6 +401,7 @@ console.log("0xc258Ac72a022f45a99827506610Bf430C1709b98");
 				console.log(hello);
 				console.log(contract);
 				console.log(`https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`)
+				
 
 
 j1();
