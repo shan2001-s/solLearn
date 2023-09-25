@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MetaMask Wallet Disconnect</title>
+</head>
+<body>
+    <button id="disconnectButton">Disconnect Wallet</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check if MetaMask is installed and connected
+            if (typeof window.ethereum !== 'undefined') {
+                const ethereum = window.ethereum;
+
+                // Add a click event listener to the disconnect button
+                document.getElementById('disconnectButton').addEventListener('click', async () => {
+                    try {
+                        await ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
+                        await ethereum.request({ method: 'wallet_disconnect', params: [{ account: ethereum.selectedAddress }] });
+                        console.log('Wallet disconnected');
+                    } catch (error) {
+                        console.error('Error disconnecting wallet:', error);
+                    }
+                });
+            } else {
+                console.error('MetaMask is not installed');
+            }
+        });
+    </script>
+</body>
+</html>

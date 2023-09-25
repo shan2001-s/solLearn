@@ -26,17 +26,36 @@
 	</select>
 	<button  onclick="play()">play</button> <br>
 	<br>
+
+	<div id="j1"></div>
+	<div id="j2"></div>
+
+	<div id="div1">
+
+	</div>
+	<div id="timer">0:00
+   
+	</div>
+	<div id="customTimer"></div>
+
   
 
-   <button  onclick="j1()">j1</button>
-   <button  onclick="j2()">j2</button>
+   
   
 
-   <div id="div1">
+  
+ <input id="claimReadOnly" style="display: none;" value="Claim for j1 Timeout" type="button" disabled>
 
+ <button id="claim" style="display: none;" onclick="j1Timeout()">claim</button>
+   <div id="winner" >
+   
    </div>
- 
- 
+   <div id="winMove" >
+	  
+   </div>
+   <div id="loseMove" >
+	  
+   </div>
 
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.10.0/web3.min.js"></script>
@@ -62,6 +81,20 @@
 			{
 				"name": "w",
 				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getC1Move",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
 			}
 		],
 		"payable": false,
@@ -136,6 +169,20 @@
 	{
 		"constant": true,
 		"inputs": [],
+		"name": "c1",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
 		"name": "j2",
 		"outputs": [
 			{
@@ -194,6 +241,20 @@
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "getTimeLeft",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [],
 		"name": "j1Timeout",
@@ -231,43 +292,59 @@
 		"stateMutability": "payable",
 		"type": "constructor"
 	}
-]
-     
-     
+];
 const connectButton = document.getElementById('connectButton');
-  const connectedButton = document.getElementById('connectedButton');
+const connectedButton = document.getElementById('connectedButton');
 
-  // Function to check if Metamask is connected
-  function checkMetamaskConnection() {
-    if (typeof window.ethereum !== 'undefined') {
-      ethereum.request({ method: 'eth_accounts' })
-      .then(accounts => {
-        if (accounts.length > 0) {
-          connectedButton.style.display = 'block';
-          connectButton.style.display = 'none';
-        } else {
-          connectedButton.style.display = 'none';
-          connectButton.style.display = 'block';
-        }
-      })
-      .catch(error => console.error(error));
-    }
-  }
-
-  // Event listener for the connect button
-  connectButton.addEventListener('click', function() {
-    ethereum.request({ method: 'eth_requestAccounts' })
+// Function to check if Metamask is connected
+function checkMetamaskConnection() {
+  if (typeof window.ethereum !== 'undefined') {
+    ethereum.request({ method: 'eth_accounts' })
     .then(accounts => {
       if (accounts.length > 0) {
         connectedButton.style.display = 'block';
         connectButton.style.display = 'none';
+      } else {
+        connectedButton.style.display = 'none';
+        connectButton.style.display = 'block';
       }
     })
     .catch(error => console.error(error));
-  });
+  }
+}
 
-  // Initial check when the page loads
-  checkMetamaskConnection();
+// Event listener for the connect button
+connectButton.addEventListener('click', function() {
+  ethereum.request({ method: 'eth_requestAccounts' })
+  .then(accounts => {
+    if (accounts.length > 0) {
+      connectedButton.style.display = 'block';
+      connectButton.style.display = 'none';
+    }
+  })
+  .catch(error => console.error(error));
+});
+
+// Event listener for the disconnect button
+connectedButton.addEventListener('click', function() {
+  ethereum.request({ method: 'eth_accounts' })
+  .then(accounts => {
+    if (accounts.length > 0) {
+      // Send a request to clear the accounts
+      ethereum.request({ method: 'eth_requestAccounts', params: [{ eth_accounts: [] }] })
+      .then(() => {
+        connectedButton.style.display = 'none';
+        connectButton.style.display = 'block';
+      })
+      .catch(error => console.error(error));
+    }
+  })
+  .catch(error => console.error(error));
+});
+
+// Initial check when the page loads
+checkMetamaskConnection();
+
 
   // Event listener for when Metamask is connected/disconnected
   ethereum.on('accountsChanged', function (accounts) {
@@ -297,25 +374,24 @@ let contract = new web3.eth.Contract(contractABI, contractAddress);
         try {
                 
            const j1= await contract.methods.j1().call()
-		   alert(`j1 , ${j1}`);
-		   console.log(j1);
+		   document.getElementById('j1').innerText=`Player1: ${j1} `
           
             } catch (error) {
                 console.error(error);
             }
         }
+		j1()
 		
 		async function j2() {
 			
         try {
-           const j2= await contract.methods.j2().call()
-		   alert(`j2 , ${j2}`);
-		   console.log(j2);
+			const j2= await contract.methods.j2().call()
+		   document.getElementById('j2').innerText=`Player2: ${j2} `
             } catch (error) {
                 console.error(error);
             }
         }
-        
+        j2()
         let stakeValue;
 
 async function stake() {
@@ -350,12 +426,204 @@ stake();
                 
            const c2= await contract.methods.play(move).send({ from: playerAddress, value: stakeValue });
 		   console.log(c2);
+		   timerSolve();
+		   const aa = await contract.methods.getTimeLeft().call();
+		   console.log(aa);
+		   window.location.reload();
             } catch (error) {
                 console.error(error);
             }
         }
 
 
+		   // Function to get time left
+		   async function getTimeLeft() {
+            try {
+                const result = await contract.methods.getTimeLeft().call();
+                return result;
+				console.log(result);
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+		// for waiting player 2 move
+
+		let timeLeft // 5 minutes in seconds
+        async function getElapsedTime() {
+            const elapsedTimeElement = document.getElementById('elapsedTime');
+            const elapsedTime = await getTimeLeft();
+			
+			timeLeft= elapsedTime;
+			console.log(timeLeft);
+            elapsedTimeElement.innerText = elapsedTime;
+        }
+		getElapsedTime()
+		
+        let timerInterval;
+
+        function updateTimer() {
+            
+            const timerElement = document.getElementById("timer");
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} (timeleft your move)`;
+
+            if (timeLeft === 0) {
+                clearInterval(timerInterval);
+                timerElement.style.display = "none";
+            } else {
+                timeLeft--;
+            }
+        }
+
+        function checkLocalStorage() {
+           
+            contract.methods.c2().call().then((result) => {
+                if (result !== '0') {
+                    clearInterval(timerInterval);
+                    document.getElementById("timer").style.display = "none"; // Hide the timer element
+                document.getElementById("alertButton").style.display = "block"; // Show the alert button
+                document.getElementById("claimj2Timeout").style.display = "none"; 
+            
+              
+                } 
+            });
+        }
+
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Check local storage every second
+        setInterval(checkLocalStorage, 1000);
+
+
+
+		//11111111111111111111111111111111111111111111 timer for player1 slove
+
+	   
+
+     
+			async function  updateCustomTimer() {
+        if(timeLeft>=0){
+			const customMinutes = Math.floor(timeLeft / 60);
+            const customSeconds = timeLeft % 60;
+
+            // Format the time as mm:ss
+            const formattedCustomTime = `${customMinutes.toString().padStart(2, '0')}:${customSeconds.toString().padStart(2, '0')} (timeleft for player1 to solve )`;
+
+            // Update the custom timer element
+            document.getElementById('customTimer').innerText = formattedCustomTime;
+			document.getElementById('claimReadOnly').style.display = 'block';
+
+            // Decrement the time by 1 second
+            timeLeft--;
+
+			
+
+           
+		}
+		else if(timeLeft<0){
+			document.getElementById('customTimer').style.display ='none';
+			document.getElementById('claimReadOnly').style.display = 'none';
+			document.getElementById('claim').style.display = 'block';
+		}
+		
+				// Check if the custom timer has reached zero
+          
+        }
+		async function j1Timeout() {
+            const accounts = await web3.eth.getAccounts();
+				console.log(accounts);
+                const playerAddress = accounts[0];
+				
+            let result = await contract.methods.j1Timeout().send({from: playerAddress, gas: 300000});
+            console.log(result);
+alert('successfully claiming')
+			document.getElementById('claim').style.display = 'none';
+        }
+		
+		
+			async function timerSolve(){
+				const customTimerIntervalSolve = setInterval(updateCustomTimer, 1000);
+			}
+			
+			async function getc2(){
+				const result = await contract.methods.c2().call();
+				if (result!= "0"){
+					timerSolve()
+				}
+			}
+
+	
+			getc2()
+        
+			
+			let timmerStop;
+			function isGetc1() {
+           
+		   contract.methods.c1().call().then((result) => {
+			   if (result !== '0') {
+				
+				console.log('winnnnnnnn');
+				timeLeft=-1
+				win()
+				  
+		   
+			 
+			   } 
+		   });
+	   }
+
+	   setInterval(isGetc1, 1000);
+
+
+	   async function win() {
+			const j1= await contract.methods.j1().call();
+			const j2= await contract.methods.j2().call()
+			const address =j1;
+			const address2 =j2;
+			const move1=await contract.methods.c1().call();
+			const move2 =await contract.methods.c2().call();
+			const aa=['null','rock','paper','scissors']
+		try {
+			
+			const winner = await contract.methods.win(move1, move2).call();
+			if(move1== move2){
+				const move=aa[move1]
+				console.log('This is tie');
+				console.log(`both player move : ${move}`);
+				document.getElementById('winner').innerText=`This is tie`;
+				document.getElementById('winMove').innerText=`both player move : ${move}`;
+			}
+			else if(winner==true){
+				const move=aa[move1]
+				const lose=aa[move2]
+				console.log(move)
+				console.log(` winner : ${address}`)
+				console.log(` winner Move : ${move}`)
+				console.log(`player2 Move : ${lose}`);
+				document.getElementById('winner').innerText=`winner : ${address}`;
+				document.getElementById('winMove').innerText=`Winner move : ${move}`;
+				document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
+			}
+			else {
+				const lose=aa[move1]
+				const move=aa[move2]
+				console.log(move)
+				console.log(` winner : ${address2}`)
+				console.log(` winner Move : ${move}`)
+				console.log(`player1 Move : ${lose}`);
+				document.getElementById('winner').innerText=`Winner : ${address2}`;
+				document.getElementById('winMove').innerText=`Winner move : ${move}`;
+				document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
+				
+			}
+   console.log(winner);
+		} catch (error) {
+			console.log(error);
+		}
+		}
 			
     </script>
 </body>
