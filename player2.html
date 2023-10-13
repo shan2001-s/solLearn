@@ -515,7 +515,7 @@ stake();
             // Update the custom timer element
             document.getElementById('customTimer').innerText = formattedCustomTime;
 			document.getElementById('claimReadOnly').style.display = 'block';
-
+		
             // Decrement the time by 1 second
             timeLeft--;
 
@@ -526,8 +526,9 @@ stake();
 		else if(timeLeft<0){
 			document.getElementById('customTimer').style.display ='none';
 			document.getElementById('claimReadOnly').style.display = 'none';
-			document.getElementById('claim').style.display = 'block';
+			document.getElementById('claim').style.display = 'none';
 		}
+		
 		
 				// Check if the custom timer has reached zero
           
@@ -576,18 +577,19 @@ alert('successfully claiming')
 	   }
 
 	   setInterval(isGetc1, 1000);
-
+	 
 
 	   async function win() {
+		
 			const j1= await contract.methods.j1().call();
 			const j2= await contract.methods.j2().call()
 			const address =j1;
 			const address2 =j2;
 			const move1=await contract.methods.c1().call();
 			const move2 =await contract.methods.c2().call();
-			const aa=['null','rock','paper','scissors']
+			const aa=['null','rock','paper','scissors','spock',"Lizard"]
 		try {
-			
+		
 			const winner = await contract.methods.win(move1, move2).call();
 			if(move1== move2){
 				const move=aa[move1]

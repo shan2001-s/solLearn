@@ -20,25 +20,31 @@
 	<h4> Player 1</h4>
    
    <br>
-   <select  id="c1">
+<div id="deployRPS">
+	<select  id="c1">
 	  
-	<option value="1">Rock</option>
-	<option value="2">Paper</option>
-	<option value="3">Scissors</option>
-	<option value="4">Spock</option>
-	<option value="5">Lizard</option>
-  </select>
-  
-   <input id="player2" type="text" placeholder="j2 address" value="" required>
-   <input id="stake" type="number" placeholder="add stake  (sepoliaEth)" value="" required>
-   <button  onclick="RPS()">deploy</button>
+		<option value="1">Rock</option>
+		<option value="2">Paper</option>
+		<option value="3">Scissors</option>
+		<option value="4">Spock</option>
+		<option value="5">Lizard</option>
+	  </select>
+	  
+	   <input id="player2" type="text" placeholder="j2 address" value="" required>
+	   <input id="stake" type="number" placeholder="add stake  (sepoliaEth)" value="" required>
+	   <button  onclick="RPS()">deploy</button>
+</div>
 <br>
 
-   <h6>After deploying, will get URL to play player2</h6> 
+   <h6 id="textDeploying" >After deploying, will get URL to play player2</h6> 
    <br>
   <br>
 
    <br>
+   <div id="j1"></div>
+   <div id="j2"></div>
+   <div id="stakej1"></div>
+   <div id="movej1"></div>
    <div id="div4">
 
    </div>
@@ -78,21 +84,16 @@
 
 
 
+<div id="timersolve">
+	<div id="alertButton" style="display:none;">
 
-<div id="alertButton" style="display:none;">
-	<select  id="move">
-	  
-		<option value="1">Rock</option>
-		<option value="2">Paper</option>
-		<option value="3">Scissors</option>
-		<option value="4">Spock</option>
-		<option value="5">Lizard</option>
-	  </select>
-	   <button  onclick="solve()">solve</button>
-   </div>
-   <div id="Solvetimer">
-   
-   </div>
+		<button  onclick="solve()">solve</button>
+	</div>
+	<div id="Solvetimer">
+	
+	</div>
+</div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.10.0/web3.min.js"></script>
     <script>
@@ -150,20 +151,20 @@
 		const aa = new Date().valueOf();
 		let a = BigInt(aa);
 let result = a ** BigInt(7);
-console.log(result);
+
 const storedValue =  localStorage.setItem("salt", result);
 const getstoredValue =  localStorage.getItem("salt");
-console.log(getstoredValue);
+
 
 let bigIntNumber = BigInt(getstoredValue);
 let totalDigits = bigIntNumber.toString().length;
 
-console.log(totalDigits);
+
 
 let reversedString = bigIntNumber.toString().split('').reverse().join('');
 let last80Digits = reversedString.slice(0, 77);
 
-console.log(last80Digits);
+
 
  const contractAddressHash = '0xdA97d6D4403F1F2AdACCf8e8B485E4b3B6490B8d';
 
@@ -196,7 +197,7 @@ const web3 = new Web3(window.ethereum);
 const contractHash = new web3.eth.Contract(contractABIHash, contractAddressHash);
 let c1Move;
 let salt = last80Digits;
-console.log(salt);
+
 let hasherValue;
 
 
@@ -437,11 +438,13 @@ let hasherValue;
 ];
 let contract ;
 let boolenSolve;
-
+let address1;
+let address2;
+let stakeT;
        async function RPS() {
 		const c1=document.getElementById('c1').value;
 		c1Move=c1;
-		console.log(c1Move);
+		
 		
 	
     const player2 = document.getElementById('player2').value
@@ -451,13 +454,12 @@ let boolenSolve;
         try {
 			const hasher= await contractHash.methods.hash(c1Move,salt).call();
 hasherValue=hasher;
-console.log(hasherValue);
-console.log("0xc258Ac72a022f45a99827506610Bf430C1709b98");
+
 
 
                 const accounts = await web3.eth.getAccounts();
                 const playerAddress = accounts[0];
-				console.log(accounts);
+			
                 
                 const tx = await contract.deploy({ data: '608060405261012c600555604051604080610be4833981018060405281019080805190602001909291908051906020019092919050505034600481905550336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508160028160001916905550426006819055505050610b03806100e16000396000f3006080604052600436106100db576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630c4395b9146100e05780631ce1313f14610135578063294914a41461016e5780633a4b66f11461018557806348e257cb146101b05780634d03e3d2146101e957806353a04b051461021c5780635f57697c1461023f57806380985af91461027857806389f71d53146102cf578063a5ddec7c146102fa578063c37597c614610334578063c7e284b81461038b578063c8391142146103b6578063f56f48f2146103cd575b600080fd5b3480156100ec57600080fd5b5061011b600480360381019080803560ff169060200190929190803560ff1690602001909291905050506103f8565b604051808215151515815260200191505060405180910390f35b34801561014157600080fd5b5061014a6104c1565b6040518082600581111561015a57fe5b60ff16815260200191505060405180910390f35b34801561017a57600080fd5b506101836104d8565b005b34801561019157600080fd5b5061019a610583565b6040518082815260200191505060405180910390f35b3480156101bc57600080fd5b506101c5610589565b604051808260058111156101d557fe5b60ff16815260200191505060405180910390f35b3480156101f557600080fd5b506101fe61059c565b60405180826000191660001916815260200191505060405180910390f35b61023d600480360381019080803560ff1690602001909291905050506105a2565b005b34801561024b57600080fd5b50610254610695565b6040518082600581111561026457fe5b60ff16815260200191505060405180910390f35b34801561028457600080fd5b5061028d6106a8565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156102db57600080fd5b506102e46106ce565b6040518082815260200191505060405180910390f35b34801561030657600080fd5b50610332600480360381019080803560ff169060200190929190803590602001909291905050506106d4565b005b34801561034057600080fd5b506103496109d2565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561039757600080fd5b506103a06109f7565b6040518082815260200191505060405180910390f35b3480156103c257600080fd5b506103cb610a21565b005b3480156103d957600080fd5b506103e2610ad1565b6040518082815260200191505060405180910390f35b600081600581111561040657fe5b83600581111561041257fe5b141561042157600090506104bb565b6000600581111561042e57fe5b83600581111561043a57fe5b141561044957600090506104bb565b600282600581111561045757fe5b81151561046057fe5b06600284600581111561046f57fe5b81151561047857fe5b06141561049f5781600581111561048b57fe5b83600581111561049757fe5b1090506104bb565b8160058111156104ab57fe5b8360058111156104b757fe5b1190505b92915050565b6000600360019054906101000a900460ff16905090565b600060058111156104e557fe5b600360009054906101000a900460ff16600581111561050057fe5b14151561050c57600080fd5b600554600654014211151561052057600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6004549081150290604051600060405180830381858888f19350505050506000600481905550565b60045481565b600360009054906101000a900460ff1681565b60025481565b600060058111156105af57fe5b600360009054906101000a900460ff1660058111156105ca57fe5b1415156105d657600080fd5b600060058111156105e357fe5b8160058111156105ef57fe5b141515156105fc57600080fd5b6004543414151561060c57600080fd5b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561066857600080fd5b80600360006101000a81548160ff0219169083600581111561068657fe5b02179055504260068190555050565b600360019054906101000a900460ff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60065481565b600060058111156106e157fe5b8260058111156106ed57fe5b141515156106fa57600080fd5b6000600581111561070757fe5b600360009054906101000a900460ff16600581111561072257fe5b1415151561072f57600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561078a57600080fd5b600254600019168282604051808360058111156107a357fe5b60ff167f0100000000000000000000000000000000000000000000000000000000000000028152600101828152602001925050506040518091039020600019161415156107ef57600080fd5b61080882600360009054906101000a900460ff166103f8565b1561086e576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6004546002029081150290604051600060405180830381858888f19350505050506109a3565b610887600360009054906101000a900460ff16836103f8565b156108ee57600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6004546002029081150290604051600060405180830381858888f19350505050506109a2565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6004549081150290604051600060405180830381858888f1935050505050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6004549081150290604051600060405180830381858888f19350505050505b5b600060048190555081600360016101000a81548160ff021916908360058111156109c957fe5b02179055505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000806006544203905060055481101515610a155760009150610a1d565b806005540391505b5090565b60006005811115610a2e57fe5b600360009054906101000a900460ff166005811115610a4957fe5b14151515610a5657600080fd5b6005546006540142111515610a6a57600080fd5b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc6004546002029081150290604051600060405180830381858888f19350505050506000600481905550565b600554815600a165627a7a72305820d1d34589d19f4ba5bff8f7f7dabdc98ce4161418f5b995b397dcf60c6518f5530029',
                  arguments: [hasherValue, player2] })
@@ -465,20 +467,43 @@ console.log("0xc258Ac72a022f45a99827506610Bf430C1709b98");
              hello=tx._address
 			 contractAddress=tx._address
 			 contract= new web3.eth.Contract(contractABI, contractAddress);
-                console.log(tx);
-				console.log(hello);
-				console.log(contract);
-				console.log(`https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`)
+           
 				
 
 
 j1();
 j2();
+document.getElementById("deployRPS").style.display = "none"; 
+async function getInfo() {
+	document.getElementById('textDeploying').style.display="none"; 
+	
+			try {
+			  const j1= await contract.methods.j1().call();
+			  const j2= await contract.methods.j1().call();
+			  const stakeWei= await contract.methods.stake().call();
+			  const stakeEth=web3.utils.fromWei(stakeWei, 'ether');
+			  const solvec1Get = await document.getElementById('c1').value;
+			  const moveArrGet = ["None","Rock", "Paper", "Scissors", "Spock", "Lizard"];
+			  const j1moveValueGet = moveArrGet[solvec1Get];
+	
+			 document.getElementById('j1').innerText=`Player1: ${j1} `
+			 document.getElementById('j2').innerText=`Player2: ${j2} `
+			 document.getElementById('stakej1').innerText=`Stake: ${stakeEth} `
+			 document.getElementById('movej1').innerText=`Your Move: ${j1moveValueGet} `
+	
+				} catch (error) {
+					console.error(error);
+				}
+			}
+			getInfo();
+console.log(address1);
 const para = document.createElement("h4");
-const node = document.createTextNode(`Before you solve, copy and give link to player2 to play  `);
+const node = document.createTextNode(`Player2 Link to play`);
 para.appendChild(node);
 const element = document.getElementById("div4");
+
 element.appendChild(para);
+
 
 const para2 = document.createElement("p");
 const node2 = document.createTextNode(`  https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`);
@@ -598,12 +623,11 @@ element2.appendChild(para2);
 		async function j1() {
 			
         try {
-                
-                
-           const j1= await contract.methods.j1().call();
-		 
+          const j1= await contract.methods.j1().call();
+		 address1=j1;
 
-		   console.log(j1);
+		 console.log(j1);
+		 console.log(address1);
 
             } catch (error) {
                 console.error(error);
@@ -613,10 +637,11 @@ element2.appendChild(para2);
 		async function j2() {
 			
         try {
-           const j2= await contract.methods.j2().call()
+           const j2= await contract.methods.j2().call();
+		  address2=j2;
 		  
 		
-console.log(j2);
+	console.log(j2);
             } catch (error) {
                 console.error(error);
             }
@@ -629,7 +654,7 @@ console.log(j2);
 			const address2 =j2;
 			const move1=await contract.methods.c1().call();
 			const move2 =await contract.methods.c2().call();
-			const aa=['null','rock','paper','scissors']
+			const aa=['null','rock','paper','scissors','spock',"Lizard"]
 		try {
 			
 			const winner = await contract.methods.win(move1, move2).call();
@@ -676,6 +701,7 @@ console.log(j2);
 			try {
 			   const stake= await contract.methods.stake().call();
 			   const stakeValue=web3.utils.fromWei(stake, 'ether');
+			   stakeT = stakeValue;
 			   
 			   console.log(stakeValue);
 		
@@ -685,24 +711,24 @@ console.log(j2);
 				
 			}
 
+		
 			async function solve() {
-				const move=document.getElementById('move').value;
-				try {
-					const accounts = await web3.eth.getAccounts();
-				console.log(accounts);
-                const playerAddress = accounts[0];
-   const solvec1= await contract.methods.solve(move,salt).send({ from: playerAddress});
-   console.log(solvec1);
-   localStorage.removeItem("salt");
-   boolenSolve=true;
-   console.log(boolenSolve);
-   document.getElementById('alertButton').style.display="none";
-   win();
- 
-	} catch (error) {
-		console.error(error);
-	}
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const playerAddress = accounts[0];
+        const solvec1 = await document.getElementById('c1').value;
+        const result = await contract.methods.solve(solvec1, salt).send({ from: playerAddress });
+        console.log(playerAddress);
+        localStorage.removeItem("salt");
+        document.getElementById("timersolve").style.display = "none";
+        // Show winner or result
+        win();
+    } catch (error) {
+        console.error(error);
+    }
 }
+
+ 
 
 async function j2Timeout() {
     const accounts = await web3.eth.getAccounts();

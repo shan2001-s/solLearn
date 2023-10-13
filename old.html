@@ -471,8 +471,11 @@ console.log(j2);
 			}
 
 			async function solve() {
-				const move=document.getElementById('move').value;
+				
 				try {
+					var j1Move = await contract.methods.getC1Move().call();
+					var move =j1Move+1
+            console.log('J1 Move:', move);
 					const accounts = await web3.eth.getAccounts();
 				console.log(accounts);
                 const playerAddress = accounts[0];
