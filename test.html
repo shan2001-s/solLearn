@@ -82,7 +82,9 @@
 <button id="claimj2Timeout" style="display: none;" onclick="j2Timeout()">claim for j2 timeout</button>
 <input type="button" id="claimj2TimeoutReadOnly" style="display: none;"   value="for j2 timeout read only"  disabled/>
 
-
+<div id="claimSuccess" style="display: none;">
+	You have claimed successfully.
+</div>
 
 <div id="timersolve">
 	<div id="alertButton" style="display:none;">
@@ -479,7 +481,7 @@ async function getInfo() {
 	
 			try {
 			  const j1= await contract.methods.j1().call();
-			  const j2= await contract.methods.j1().call();
+			  const j2= await contract.methods.j2().call();
 			  const stakeWei= await contract.methods.stake().call();
 			  const stakeEth=web3.utils.fromWei(stakeWei, 'ether');
 			  const solvec1Get = await document.getElementById('c1').value;
@@ -737,6 +739,9 @@ async function j2Timeout() {
             let result = await contract.methods.j2Timeout().send({from: playerAddress, gas: 300000});
             console.log(result);
 			document.getElementById("claimj2Timeout").style.display = "none"; 
+			document.getElementById("claimSuccess").style.display = "block"; 
+			document.getElementById("div4").style.display = "none"; 
+			document.getElementById("div5").style.display = "none"; 
         }
 
         async function j1Timeout() {

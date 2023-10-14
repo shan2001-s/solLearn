@@ -47,6 +47,8 @@
  <input id="claimReadOnly" style="display: none;" value="Claim for j1 Timeout" type="button" disabled>
 
  <button id="claim" style="display: none;" onclick="j1Timeout()">claim</button>
+ <div id="claimSuccess" style="display: none;">Successfully finish claiming</div>
+ 
    <div id="winner" >
    
    </div>
@@ -502,7 +504,7 @@ stake();
 		//11111111111111111111111111111111111111111111 timer for player1 slove
 
 	   
-
+		let claimButtonClicked = false;
      
 			async function  updateCustomTimer() {
         if(timeLeft>=0){
@@ -523,25 +525,29 @@ stake();
 
            
 		}
-		else if(timeLeft<0){
+		else if(timeLeft<0 && !claimButtonClicked ){
 			document.getElementById('customTimer').style.display ='none';
 			document.getElementById('claimReadOnly').style.display = 'none';
-			document.getElementById('claim').style.display = 'none';
+			document.getElementById('claim').style.display = 'block';
 		}
 		
 		
 				// Check if the custom timer has reached zero
           
         }
+		
 		async function j1Timeout() {
+			document.getElementById('claim').style.display = 'none';
+			claimButtonClicked = true;
             const accounts = await web3.eth.getAccounts();
 				console.log(accounts);
                 const playerAddress = accounts[0];
 				
             let result = await contract.methods.j1Timeout().send({from: playerAddress, gas: 300000});
             console.log(result);
-alert('successfully claiming')
-			document.getElementById('claim').style.display = 'none';
+			
+			document.getElementById('claimSuccess').style.display = 'block';
+			
         }
 		
 		
@@ -622,6 +628,7 @@ alert('successfully claiming')
 				
 			}
    console.log(winner);
+   document.getElementById('claim').style.display = 'none';
 		} catch (error) {
 			console.log(error);
 		}
