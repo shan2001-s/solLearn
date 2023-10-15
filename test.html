@@ -9,96 +9,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Contract Interaction</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <h1>RPS (sepoliaEth Testnet)</h1>
-   
-	<button id="connectButton">Connect Wallet</button>
-    <button id="connectedButton" style="display: none;">Connected</button>
-	<br>
-	<br>
-	<h4> Player 1</h4>
-   
-   <br>
-<div id="deployRPS">
-	<select  id="c1">
-	  
-		<option value="1">Rock</option>
-		<option value="2">Paper</option>
-		<option value="3">Scissors</option>
-		<option value="4">Spock</option>
-		<option value="5">Lizard</option>
-	  </select>
-	  
-	   <input id="player2" type="text" placeholder="j2 address" value="" required>
-	   <input id="stake" type="number" placeholder="add stake  (sepoliaEth)" value="" required>
-	   <button  onclick="RPS()">deploy</button>
-</div>
-<br>
+	<nav class="navbar bg-primary ">
+		<div class="container-fluid">
+		  <a class="navbar-brand text-white" >RPS (sepoliaEth Testnet)</a>
+		 
+		<div class="d-flex">
+			<div id="parentElement" class="me-2 mt-1"></div>
 
-   <h6 id="textDeploying" >After deploying, will get URL to play player2</h6> 
-   <br>
-  <br>
-
-   <br>
-   <div id="j1"></div>
-   <div id="j2"></div>
-   <div id="stakej1"></div>
-   <div id="movej1"></div>
-   <div id="div4">
-
-   </div>
-<div id="div5">
-
-</div>
-
-<div id="div3">
-
-</div>
-
-<div id="div2">
-
-</div>
-<div id="div1">
-
-</div>
-
-<div id="timer" >
-   
-</div>
-
-<div id="winner" >
-   
-</div>
-<div id="winMove" >
-   
-</div>
-<div id="loseMove" >
-   
-</div>
-
-
-
-<button id="claimj2Timeout" style="display: none;" onclick="j2Timeout()">claim for j2 timeout</button>
-<input type="button" id="claimj2TimeoutReadOnly" style="display: none;"   value="for j2 timeout read only"  disabled/>
-
-<div id="claimSuccess" style="display: none;">
-	You have claimed successfully.
-</div>
-
-<div id="timersolve">
-	<div id="alertButton" style="display:none;">
-
-		<button  onclick="solve()">solve</button>
+			<button id="connectButton" type="button" class="btn btn-secondary">Connect Wallet</button>
+			<button id="connectedButton" type="button" class="btn btn-secondary" style="display: none;">Disconnect Wallet</button>
+		</div>
+		</div>
+	  </nav>
+	  <br>
+	<div  class="align-items-center text-center">
+		<h4 class=""> Player 1</h4>
+		<img class="" src="img/Screenshot (143).png" alt="" height="200px">
 	</div>
-	<div id="Solvetimer">
+   
+   <br>
+<div class="align-items-center text-center">
+	<div id="deployRPS"   >
+		<div class="d-flex justify-content-center">
+			<select class="form-select w-auto"  id="c1">
+		  
+				<option value="1">Rock</option>
+				<option value="2">Paper</option>
+				<option value="3">Scissors</option>
+				<option value="4">Spock</option>
+				<option value="5">Lizard</option>
+			  </select>
+			  
+			   <input id="player2" type="text"  class="form-control w-auto ms-1" placeholder="j2 address" value="" required>
+			   <input id="stake" type="number"  class="form-control w-auto ms-1" placeholder="add stake  (sepoliaEth)" value="" required>
+			   <button type="button" class="btn btn-outline-primary ms-1"  onclick="RPS()">deploy</button>
+		</div>
+	</div>
+	<br>
 	
-	</div>
+	   <h6 id="textDeploying" >After deploying, will get URL to play player2</h6> 
+	   <br>
+	  <br>
+	
+	   <br>
+
+	 
+	   <div id="hideForTimeOutSolve" >  <!-- hide all info for time out solve -->
+		<div  class=" d-flex justify-content-center align-items-end">
+			<div id="infoCard" style="display: none;" class="card " style="width: fit-content;">
+				<div class="card-body">
+					<div id="j1" ></div>
+					<div id="j2"></div>
+					<div id="stakej1" class="text-start"></div>
+					<div id="movej1" class="text-start"></div>
+				</div>
+			  </div>
+		  </div>
+		  <br>
+		  <br>
+		   
+		   <div id="div4">
+		
+		   </div>
+		<div class=" d-flex justify-content-center">
+			<div id="div05" style="display: none;">
+				<div id="div5"  class="bg-dark text-white p-3 d-flex justify-content-center" style="width: fit-content;">
+	
+				</div>
+	
+			</div>
+		</div>
+		<br>
+		<div id="div3">
+		
+		</div>
+		
+		<div id="div2">
+		
+		</div>
+		
+		<div id="div1">
+		
+		</div>
+		
+		<div id="timer" >
+		   
+		</div>
+		
+		<div id="winner" >
+		   
+		</div>
+		<div id="winMove" >
+		   
+		</div>
+		<div id="loseMove" >
+		   
+		</div>
+		
+		
+		
+		<button id="claimj2Timeout" style="display: none;" onclick="j2Timeout()">claim for j2 timeout</button>
+		<input type="button" id="claimj2TimeoutReadOnly" style="display: none;"   value="for j2 timeout read only"  disabled/>
+		
+		<div id="claimSuccess" style="display: none;">
+			You have claimed successfully.
+		</div>
+		
+		<div id="timersolve">
+			<div id="alertButton" style="display:none;">
+		
+				<button  onclick="solve()">solve</button>
+			</div>
+			<div id="Solvetimer">
+			
+			</div>
+		</div>
+	   </div>
+	   <div id="TextCreateNewPlaying" style="display: none;" >
+		<h4>You are time out for Solve!. Create New Playing.</h4>
+	   </div>
+
 </div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.10.0/web3.min.js"></script>
     <script>
+
+
          
 		  const connectButton = document.getElementById('connectButton');
   const connectedButton = document.getElementById('connectedButton');
@@ -108,29 +148,76 @@
     if (typeof window.ethereum !== 'undefined') {
       ethereum.request({ method: 'eth_accounts' })
       .then(accounts => {
-        if (accounts.length > 0) {
-          connectedButton.style.display = 'block';
-          connectButton.style.display = 'none';
-        } else {
-          connectedButton.style.display = 'none';
-          connectButton.style.display = 'block';
-        }
+      
       })
       .catch(error => console.error(error));
     }
   }
+ // Check if data exists in localStorage
+var storedData = localStorage.getItem('myData');
+
+if (storedData) {
+    // Data exists, show delete button
+	connectedButton.style.display = 'block';
+        connectButton.style.display = 'none';
+} else {
+    // No data, show store button
+    connectedButton.style.display = 'none';
+        connectButton.style.display = 'block';
+}
 
   // Event listener for the connect button
+
   connectButton.addEventListener('click', function() {
+	document.getElementById("parentElement").style.display='block';
     ethereum.request({ method: 'eth_requestAccounts' })
     .then(accounts => {
-      if (accounts.length > 0) {
-        connectedButton.style.display = 'block';
-        connectButton.style.display = 'none';
-      }
+        if (accounts.length > 0) {
+            console.log(accounts);
+            connectedButton.style.display = 'block';
+            connectButton.style.display = 'none';
+            localStorage.setItem('myData', accounts[0]);
+            
+            var getMyData = accounts[0];
+			console.log(getMyData);
+            var truncatedAddress = getMyData.slice(0, 6) + "..." + getMyData.slice(-6);
+            
+            // Check if the anchor element already exists
+            var existingAnchor = document.getElementById('myAnchor');
+            
+            if (!existingAnchor) {
+                // Create a new anchor element
+                var myAnchor = document.createElement('a');
+                myAnchor.textContent = truncatedAddress;
+                myAnchor.id = 'myAnchor'; // Assign an ID to the anchor element
+				myAnchor.style.color="white"
+                var parentElement = document.getElementById('parentElement');
+                parentElement.appendChild(myAnchor);
+            }
+        }
+    })
+    .catch(error => console.error(error));
+});
+
+
+   // Event listener for the connected button
+   connectedButton.addEventListener('click', function() {
+	
+	ethereum.request({ method: 'eth_accounts' })
+    .then(accounts => {
+		delete accounts[0];
+      console.log(accounts);
+	  connectedButton.style.display = 'none';
+      connectButton.style.display = 'block';
+	  localStorage.removeItem('myData');
+	  document.getElementById("parentElement").style.display='none';
+	  
     })
     .catch(error => console.error(error));
   });
+
+
+
 
   // Initial check when the page loads
   checkMetamaskConnection();
@@ -197,7 +284,6 @@ const contractABIHash = [
 ]
 const web3 = new Web3(window.ethereum);
 const contractHash = new web3.eth.Contract(contractABIHash, contractAddressHash);
-let c1Move;
 let salt = last80Digits;
 
 let hasherValue;
@@ -443,9 +529,11 @@ let boolenSolve;
 let address1;
 let address2;
 let stakeT;
+let c1MoveV; // Declare c1Move, but it's still undefined
        async function RPS() {
 		const c1=document.getElementById('c1').value;
-		c1Move=c1;
+		console.log(c1);
+		c1MoveV=c1;
 		
 		
 	
@@ -454,7 +542,7 @@ let stakeT;
 	contractAddress=  "0x3C19E01f93a941D47304A0284713Cea24D42f509";
 	contract=new web3.eth.Contract(contractABI, contractAddress);
         try {
-			const hasher= await contractHash.methods.hash(c1Move,salt).call();
+			const hasher= await contractHash.methods.hash(c1MoveV,salt).call();
 hasherValue=hasher;
 
 
@@ -478,6 +566,7 @@ j2();
 document.getElementById("deployRPS").style.display = "none"; 
 async function getInfo() {
 	document.getElementById('textDeploying').style.display="none"; 
+	document.getElementById("infoCard").style.display='block';
 	
 			try {
 			  const j1= await contract.methods.j1().call();
@@ -488,10 +577,10 @@ async function getInfo() {
 			  const moveArrGet = ["None","Rock", "Paper", "Scissors", "Spock", "Lizard"];
 			  const j1moveValueGet = moveArrGet[solvec1Get];
 	
-			 document.getElementById('j1').innerText=`Player1: ${j1} `
-			 document.getElementById('j2').innerText=`Player2: ${j2} `
-			 document.getElementById('stakej1').innerText=`Stake: ${stakeEth} `
-			 document.getElementById('movej1').innerText=`Your Move: ${j1moveValueGet} `
+			 document.getElementById('j1').innerText=`Player1:  ${j1} `
+			 document.getElementById('j2').innerText=`Player2:  ${j2} `
+			 document.getElementById('stakej1').innerText=`Stake:    ${stakeEth} `
+			 document.getElementById('movej1').innerText=`Your Move:  ${j1moveValueGet} `
 	
 				} catch (error) {
 					console.error(error);
@@ -505,13 +594,32 @@ para.appendChild(node);
 const element = document.getElementById("div4");
 
 element.appendChild(para);
-
+document.getElementById("div05").style.display="block";
 
 const para2 = document.createElement("p");
 const node2 = document.createTextNode(`  https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`);
 para2.appendChild(node2);
+
+const customCopyButton = document.createElement("button");
+customCopyButton.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/>
+  </svg>`;
+
+customCopyButton.classList.add("text-end", "btn");
+customCopyButton.style.color = "white";
+customCopyButton.style.marginTop = "-20px";
+
+customCopyButton.addEventListener("click", function() {
+    const urlText = `https://shan2001-s.github.io/solLearn/player2.html?id=${contractAddress}`;
+    navigator.clipboard.writeText(urlText)
+        .catch(error => console.error("Could not copy to clipboard: ", error));
+});
+
 const element2 = document.getElementById("div5");
 element2.appendChild(para2);
+element2.appendChild(customCopyButton);
+
 
 // time
 
@@ -581,6 +689,8 @@ element2.appendChild(para2);
 				if (solveTimeleft === 0 || boolenSolve==true) {
                 clearInterval(timerInterval);
                 timerElement1.style.display = "none";
+				document.getElementById("hideForTimeOutSolve").style.display='none';
+				document.getElementById("TextCreateNewPlaying").style.display="block";
             }
 			
 			else{
@@ -758,5 +868,6 @@ async function j2Timeout() {
       
  
     </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
