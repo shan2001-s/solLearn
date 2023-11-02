@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hello</h1>
+</body>
+<script>
+// Generate a random 32-byte (256-bit) buffer
+const randomBuffer = new Uint8Array(32);
+crypto.getRandomValues(randomBuffer);
+
+// Convert the buffer to a hexadecimal string
+const randomNumber = Array.from(randomBuffer).map(b => b % 10).join('');
+
+// Hash the random number using SHA-256
+crypto.subtle.digest('SHA-256', randomBuffer).then(hashBuffer => {
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashedNumber = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  
+  console.log('Random Number:', randomNumber);
+  console.log('Hashed Number:', hashedNumber);
+});
+
+
+</script>
+</html>

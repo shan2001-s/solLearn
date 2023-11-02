@@ -643,9 +643,9 @@ let noneClaimAfterWin=false;
 				console.log(` winner : ${address}`)
 				console.log(` winner Move : ${move}`)
 				console.log(`player2 Move : ${lose}`);
-				document.getElementById('winner').innerText=`winner : ${address}`;
-				document.getElementById('winMove').innerText=`Winner move : ${move}`;
-				document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
+				document.getElementById('winner').innerText=`Oop!, You lose.`;
+				document.getElementById('winMove').innerText=`Player1 Move : ${move}`;
+				// document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
 			}
 			else {
 				const lose=aa[move1]
@@ -654,9 +654,9 @@ let noneClaimAfterWin=false;
 				console.log(` winner : ${address2}`)
 				console.log(` winner Move : ${move}`)
 				console.log(`player1 Move : ${lose}`);
-				document.getElementById('winner').innerText=`Winner : ${address2}`;
-				document.getElementById('winMove').innerText=`Winner move : ${move}`;
-				document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
+				document.getElementById('winner').innerText=`Congrats!, You win.`;
+				// document.getElementById('winMove').innerText=`Winner move : ${move}`;
+				document.getElementById('loseMove').innerText=`Player1 Move : ${lose}`;
 				
 			}
    console.log(winner);

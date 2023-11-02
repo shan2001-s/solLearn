@@ -138,7 +138,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.10.0/web3.min.js"></script>
     <script>
 
+const randomBuffer = new Uint8Array(32);
+crypto.getRandomValues(randomBuffer);
 
+// Convert the buffer to a hexadecimal string
+const randomNumber = Array.from(randomBuffer).map(b => b % 10).join('');
+
+// Hash the random number using SHA-256
+crypto.subtle.digest('SHA-256', randomBuffer).then(hashBuffer => {
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashedNumber = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  
+  console.log('Random Number:', randomNumber);
+  console.log('Hashed Number:', hashedNumber);
+});
          
 		  const connectButton = document.getElementById('connectButton');
   const connectedButton = document.getElementById('connectedButton');
@@ -238,6 +251,7 @@ if (storedData) {
   localStorage.removeItem("salt");
 });
 		const aa = new Date().valueOf();
+		console.log("DAtE",aa);
 		let a = BigInt(aa);
 let result = a ** BigInt(7);
 
@@ -784,9 +798,9 @@ element2.appendChild(customCopyButton);
 				console.log(` winner : ${address}`)
 				console.log(` winner Move : ${move}`)
 				console.log(`player2 Move : ${lose}`);
-				document.getElementById('winner').innerText=`winner : ${address}`;
-				document.getElementById('winMove').innerText=`Winner move : ${move}`;
-				document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
+				document.getElementById('winner').innerText=`Congrats!, You are Winner`;
+				// document.getElementById('winMove').innerText=`Winner move : ${move}`;
+				document.getElementById('loseMove').innerText=`Player2 move : ${lose}`;
 			}
 			else {
 				const lose=aa[move1]
@@ -795,9 +809,9 @@ element2.appendChild(customCopyButton);
 				console.log(` winner : ${address2}`)
 				console.log(` winner Move : ${move}`)
 				console.log(`player1 Move : ${lose}`);
-				document.getElementById('winner').innerText=`Winner : ${address2}`;
-				document.getElementById('winMove').innerText=`Winner move : ${move}`;
-				document.getElementById('loseMove').innerText=`Lose move : ${lose}`;
+				document.getElementById('winner').innerText=`Oop!, You Lose `;
+				 document.getElementById('winMove').innerText=`Player2 move : ${move}`;
+				// document.getElementById('loseMove').innerText=`Loser move : ${lose}`;
 				
 			}
    console.log(winner);
