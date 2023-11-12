@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update ID Example</title>
+</head>
+<body>
+    <button id="updateButton" onclick="updateId()">Update ID</button>
+  
+</body>
+
+<script>
+function updateId() {
+    const newId = '0xc73bcEa9b77ceE0c0cCbe4EDcacc1d3b3dD847C8'; // Replace with your new id
+  
+    // Function to update the URL with a new id
+    function updateURLWithNewId(newId) {
+      const currentURL = new URL(window.location.href);
+      currentURL.searchParams.set('id', newId);
+      window.history.pushState({}, '', currentURL);
+    }
+  
+    updateURLWithNewId(newId);
+  
+  }
+
+</script>
+</html>
